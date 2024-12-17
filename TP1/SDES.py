@@ -52,6 +52,51 @@ def genChave(chave):
 
     return k1, k2
 
+def xor(a, b):
+    saida = ""
+
+    for i in range(len(a)):
+        if a == b:
+            saida += "0"
+        else:
+            saida += "1"
+    return saida
+
+def F(right, subchave):
+    exp = right[3] + right[0] + right[1] + right[2] + right[1] + right[2] + right[3] + right[0]
+    print(exp)
+    P = [[xor(exp[0], subchave[0]), xor(exp[1], subchave[1]), xor(exp[2], subchave[2]), xor(exp[3], subchave[3])],
+    [xor(exp[4], subchave[4]), xor(exp[5], subchave[5]), xor(exp[6], subchave[6]), xor(exp[7], subchave[7])]]
+    print(P)
+    S0 = [["01", "00", "11", "10"],["11","10","01","00"],
+    ["00","10","01","11"],["11","01","11","10"]]
+
+    S1 = [["00", "01", "10", "11"],["10","00","01","11"],
+    ["11","00","01","00"],["10","01","00","11"]]
+    print([int(P[1][0] + P[1][3], 2), int(P[1][1] + P[1][2], 2)]
+    )
+    chave = S0[int(P[0][0] + P[0][3], 2)][int(P[0][1] + P[0][2], 2)] + S1[int(P[1][0] + P[1][3], 2)][int(P[1][1] + P[1][2], 2)]
+    print(chave)
+    chave = chave[1] + chave[3] + chave[2] + chave[0]
+    
+    return chave
+
+
+def ip(msg):
+    msg = msg[1] + msg[5] + msg[2] + msg[0] + msg[3] + msg[7] + msg[4] + msg[6]  
+
+    return msg
+
+def ipInv(msg):
+    msg = msg[3] + msg[0] + msg[2] + msg[4] + msg[6] + msg[1] + msg[7] + msg[5]
+
+    return msg
+
+def fk(msg):
+    left = msg[0:4]
+    
+    right = msg[4:8]
+
 ####### CRIPTOGRAFIA #######
 def ip():
     pass
@@ -61,5 +106,7 @@ def ipInv():
 
 # RESULTADO DESEJADO : 10101000
 # RESULTADO ATINGIDO : ???
-a, b = genChave("1000001100")
-print(a, b)
+print(F("1101", "10100100"))
+
+"""a, b = genChave("1000001100")
+print(a, b)"""
