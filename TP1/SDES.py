@@ -98,18 +98,12 @@ def ipInv(msg):
 def feistel(left, right, chave):
     resultado = F(right, chave)
 
-    print(left)
-
-    print(resultado)
-
     resultado = xor(left, resultado)
-
-    print(resultado)
 
     return right, resultado
 
 def SDES(msg, chave):
-    k1, k2 = (genChave(perm10(chave)))
+    k1, k2 = genChave(perm10(chave))
 
     msg = ip(msg)
 
@@ -119,7 +113,25 @@ def SDES(msg, chave):
 
     R, L = feistel(L, R, k2)
 
+    print("Encriptação: " + ipInv(L + R))
+
     return ipInv(L + R)
+
+def DSDES(msg, chave):
+    k1, k2 = genChave(perm10(chave))
+
+    msg = ip(msg)
+
+    L, R = msg[0:4], msg[4:8]
+
+    L, R = feistel(L, R, k2)
+
+    R, L = feistel(L, R, k1)
+
+    print("Descriptação: " + ipInv(L + R))
+
+    return ipInv(L + R)
+
 ####### CRIPTOGRAFIA #######
 
 # RESULTADO DESEJADO : 10101000
@@ -127,7 +139,4 @@ def SDES(msg, chave):
 
 #print(F("1101", "10100100"))
 
-print(SDES("11010111", "1010000010"))
-
-"""a, b = genChave("1000001100")
-print(a, b)"""
+DSDES(SDES("11010111", "1010000010"), "1010000010")
