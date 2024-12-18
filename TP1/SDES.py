@@ -56,7 +56,7 @@ def xor(a, b):
     saida = ""
 
     for i in range(len(a)):
-        if a == b:
+        if a[i] == b[i]:
             saida += "0"
         else:
             saida += "1"
@@ -64,19 +64,22 @@ def xor(a, b):
 
 def F(right, subchave):
     exp = right[3] + right[0] + right[1] + right[2] + right[1] + right[2] + right[3] + right[0]
-    print(exp)
+    
     P = [[xor(exp[0], subchave[0]), xor(exp[1], subchave[1]), xor(exp[2], subchave[2]), xor(exp[3], subchave[3])],
     [xor(exp[4], subchave[4]), xor(exp[5], subchave[5]), xor(exp[6], subchave[6]), xor(exp[7], subchave[7])]]
-    print(P)
-    S0 = [["01", "00", "11", "10"],["11","10","01","00"],
-    ["00","10","01","11"],["11","01","11","10"]]
+    
+    S0 = [["01", "00", "11", "10"],
+    ["11","10","01","00"],
+    ["00","10","01","11"],
+    ["11","01","11","10"]]
 
-    S1 = [["00", "01", "10", "11"],["10","00","01","11"],
-    ["11","00","01","00"],["10","01","00","11"]]
-    print([int(P[1][0] + P[1][3], 2), int(P[1][1] + P[1][2], 2)]
-    )
+    S1 = [["00", "01", "10", "11"],
+    ["10","00","01","11"],
+    ["11","00","01","00"],
+    ["10","01","00","11"]]
+        
     chave = S0[int(P[0][0] + P[0][3], 2)][int(P[0][1] + P[0][2], 2)] + S1[int(P[1][0] + P[1][3], 2)][int(P[1][1] + P[1][2], 2)]
-    print(chave)
+
     chave = chave[1] + chave[3] + chave[2] + chave[0]
     
     return chave
@@ -92,21 +95,39 @@ def ipInv(msg):
 
     return msg
 
-def fk(msg):
-    left = msg[0:4]
-    
-    right = msg[4:8]
+def feistel(left, right, chave):
+    resultado = F(right, chave)
 
+    print(left)
+
+    print(resultado)
+
+    resultado = xor(left, resultado)
+
+    print(resultado)
+
+    return right, resultado
+
+def SDES(msg, chave):
+    k1, k2 = (genChave(perm10(chave)))
+
+    msg = ip(msg)
+
+    L, R = msg[0:4], msg[4:8]
+
+    L, R = feistel(L, R, k1)
+
+    R, L = feistel(L, R, k2)
+
+    return ipInv(L + R)
 ####### CRIPTOGRAFIA #######
-def ip():
-    pass
-
-def ipInv():
-    pass
 
 # RESULTADO DESEJADO : 10101000
 # RESULTADO ATINGIDO : ???
-print(F("1101", "10100100"))
+
+#print(F("1101", "10100100"))
+
+print(SDES("11010111", "1010000010"))
 
 """a, b = genChave("1000001100")
 print(a, b)"""
