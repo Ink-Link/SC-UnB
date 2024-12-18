@@ -7,18 +7,6 @@ def perm8(kLS):
     chaveP = kLS[5]+kLS[2]+kLS[6]+kLS[3]+kLS[7]+kLS[4]+kLS[9]+kLS[8]
     return chaveP
 
-def permMista(k, n): # Chave, numero da permutacao
-    chaveP = ""
-
-    if n == 10:
-        for i in [3,5,2,7,4,10,1,9,8,6]:
-            chaveP += k[i-1]
-    else:
-        for i in [6,3,7,4,8,5,10,9]:
-            chaveP += k[i-1]
-
-    return chaveP
-
 def ls(k, n): # Chave, numero do shift
         chave = ""
         
