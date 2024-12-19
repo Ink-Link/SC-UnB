@@ -1,28 +1,38 @@
 ####### GERAÇÃO DE CHAVE #######
 def perm10(k): 
-    chaveP = k[2] + k[4] + k[1] + k[6] + k[3] + k[9] + k[0] + k[8] + k[7] + k[5]
+    chaveP = k[2]+k[4]+k[1]+k[6]+k[3]+k[9]+k[0]+k[8]+k[7]+k[5]
+    
+    print("Chave após a execução da função perm10:", chaveP)
+    
     return chaveP
 
 def perm8(kLS):
-    chaveP = kLS[5] + kLS[2] + kLS[6] + kLS[3] + kLS[7] + kLS[4] + kLS[9] + kLS[8]
+    chaveP = kLS[5]+kLS[2]+kLS[6]+kLS[3]+kLS[7]+kLS[4]+kLS[9]+kLS[8]
+    
+    print("Chave após a execução da função perm8:", chaveP)
+    
     return chaveP
 
 def ls(k, n): # Chave, numero do shift
-    chave = ""
+        chave = ""
         
-    changeList = [0 for i in range(len(k))]
+        changeList = [0 for i in range(len(k))]
 
-    for i in range(len(k)):
-        if (i - n) < 0:
-            changeList[len(k) - n + i] = k[i]
-        else:
-            changeList[i - n] = k[i]
+        for i in range(len(k)):
+            if (i - n) < 0:
+                changeList[len(k) - n + i] = k[i]
+            else:
+                changeList[i - n] = k[i]
         
-    for bit in changeList:
-        chave += bit
-    return chave
+        for bit in changeList:
+            chave += bit
+        
+        print("Chave após a execução da função de left shift:", chave)
+        
+        return chave
 
 def genChave(chave): 
+
     # Primeira metade
     c1 = chave[0:5]
     # Segunda metade
@@ -36,6 +46,8 @@ def genChave(chave):
     k1 = perm8(k1)
     k2 = ls(c1, 2) + ls(c2, 2)
     k2 = perm8(k2)
+
+    print("Chaves K1 e K2 criadas com a função de geração de chave:", k1, k2)
 
     return k1, k2
 
@@ -53,17 +65,17 @@ def F(right, subchave):
     exp = right[3] + right[0] + right[1] + right[2] + right[1] + right[2] + right[3] + right[0]
     
     P = [[xor(exp[0], subchave[0]), xor(exp[1], subchave[1]), xor(exp[2], subchave[2]), xor(exp[3], subchave[3])],
-         [xor(exp[4], subchave[4]), xor(exp[5], subchave[5]), xor(exp[6], subchave[6]), xor(exp[7], subchave[7])]]
+    [xor(exp[4], subchave[4]), xor(exp[5], subchave[5]), xor(exp[6], subchave[6]), xor(exp[7], subchave[7])]]
     
-    S0 = [["01","00","11","10"],
-          ["11","10","01","00"],
-          ["00","10","01","11"],
-          ["11","01","11","10"]]
+    S0 = [["01", "00", "11", "10"],
+    ["11","10","01","00"],
+    ["00","10","01","11"],
+    ["11","01","11","10"]]
 
-    S1 = [["00","01","10","11"],
-          ["10","00","01","11"],
-          ["11","00","01","00"],
-          ["10","01","00","11"]]
+    S1 = [["00", "01", "10", "11"],
+    ["10","00","01","11"],
+    ["11","00","01","00"],
+    ["10","01","00","11"]]
         
     chave = S0[int(P[0][0] + P[0][3], 2)][int(P[0][1] + P[0][2], 2)] + S1[int(P[1][0] + P[1][3], 2)][int(P[1][1] + P[1][2], 2)]
 
@@ -90,10 +102,6 @@ def feistel(left, right, chave):
     return right, resultado
 
 def SDES(msg, chave):
-    print("Mensagem: ", msg)
-    print("Chave: ", chave)
-    print("--------------------")
-
     k1, k2 = genChave(perm10(chave))
 
     msg = ip(msg)
@@ -122,13 +130,5 @@ def DSDES(msg, chave):
     print("Descriptação: " + ipInv(L + R))
 
     return ipInv(L + R)
-
-####### CRIPTOGRAFIA #######
-
-# Chave de 10 bits: 1010000010
-# Bloco de dados de 8 bits: 11010111
-#
-# Resultado desejado : 10101000
-# Resultado Atingido : ???
 
 DSDES(SDES("11010111", "1010000010"), "1010000010")
