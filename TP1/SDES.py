@@ -131,4 +131,14 @@ def DSDES(msg, chave):
 
     return ipInv(L + R)
 
+<<<<<<< HEAD
+=======
+####### CRIPTOGRAFIA #######
+
+# Chave de 10 bits: 1010000010
+# Bloco de dados de 8 bits: 11010111
+#
+# Resultado desejado : 10101000
+
+>>>>>>> 17f1e0fb268f57abcba0fbe43c1b109221992690
 DSDES(SDES("11010111", "1010000010"), "1010000010")
