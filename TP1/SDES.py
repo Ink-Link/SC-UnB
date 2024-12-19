@@ -129,6 +129,5 @@ def DSDES(msg, chave):
 # Bloco de dados de 8 bits: 11010111
 #
 # Resultado desejado : 10101000
-# Resultado Atingido : 10101000
 
 DSDES(SDES("11010111", "1010000010"), "1010000010")
