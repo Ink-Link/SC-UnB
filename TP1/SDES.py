@@ -64,9 +64,13 @@ def xor(a, b):
 def F(right, subchave):
     exp = right[3] + right[0] + right[1] + right[2] + right[1] + right[2] + right[3] + right[0]
     
+    print("Lado direito da mensagem após a expansão de bits:", exp)
+
     P = [[xor(exp[0], subchave[0]), xor(exp[1], subchave[1]), xor(exp[2], subchave[2]), xor(exp[3], subchave[3])],
     [xor(exp[4], subchave[4]), xor(exp[5], subchave[5]), xor(exp[6], subchave[6]), xor(exp[7], subchave[7])]]
     
+    print("Matriz formada através de um XOR bit a bit entre a mensagem expandida e subchave de entrada:", P)
+
     S0 = [["01", "00", "11", "10"],
     ["11","10","01","00"],
     ["00","10","01","11"],
@@ -131,14 +135,4 @@ def DSDES(msg, chave):
 
     return ipInv(L + R)
 
-<<<<<<< HEAD
-=======
-####### CRIPTOGRAFIA #######
-
-# Chave de 10 bits: 1010000010
-# Bloco de dados de 8 bits: 11010111
-#
-# Resultado desejado : 10101000
-
->>>>>>> 17f1e0fb268f57abcba0fbe43c1b109221992690
 DSDES(SDES("11010111", "1010000010"), "1010000010")
